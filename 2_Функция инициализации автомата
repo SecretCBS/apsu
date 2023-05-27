@@ -1,0 +1,31 @@
+void pneumo_engine_init(struct PneumoEngine* engine) {
+
+if (0 != engine) {
+
+engine->cylinders[PNEUMO_CYLINDER_Y1].input_signal[PNEUMO_CYLINDER_SIGNAL_UP] = 0;
+
+engine->cylinders[PNEUMO_CYLINDER_Y1].input_signal[PNEUMO_CYLINDER_SIGNAL_DOWN] = 0;
+
+engine->cylinders[PNEUMO_CYLINDER_Y1].output_signal = 0;
+
+...
+
+engine->state = PneumoState_Init;
+
+engine->delay = 0;
+
+engine->timeout = 0;
+
+engine->timeouts[PneumoState_Init] = INT_MAX;
+
+engine->delays[PneumoState_Init] = INT_MAX;
+
+engine->timeouts[PneumoState_1] = TIMEOUT_DELTA(60);
+
+engine->delays[PneumoState_1] = DELAY_DELTA(78);
+
+...
+
+}
+
+}
