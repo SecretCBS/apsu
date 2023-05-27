@@ -1,0 +1,129 @@
+bool pneumo_engine_tick(struct PneumoEngine* engine) {
+
+bool ret = true;
+
+if (0 == engine)
+
+return false;
+
+...
+
+switch (engine->state) {
+
+case PneumoState_Init: {
+
+engine->state = PneumoState_1;
+
+engine->delay = 0;
+
+engine->timeout = 0;
+
+break;
+
+}
+
+case PneumoState_1: {
+
+engine->cylinders[PNEUMO_CYLINDER_Y1].output_signal = 0;
+
+engine->cylinders[PNEUMO_CYLINDER_Y2].output_signal = 0;
+
+engine->cylinders[PNEUMO_CYLINDER_Y3].output_signal = 0;
+
+engine->cylinders[PNEUMO_CYLINDER_Y4].output_signal = 0;
+
+engine->cylinders[PNEUMO_CYLINDER_Y5].output_signal = 0;
+
+engine->cylinders[PNEUMO_CYLINDER_Y6].output_signal = 0;
+
+engine->cylinders[PNEUMO_CYLINDER_Y7].output_signal = 0;
+
+engine->cylinders[PNEUMO_CYLINDER_Y8].output_signal = 0;
+
+if (engine->cylinders[PNEUMO_CYLINDER_Y1].input_signal[PNEUMO_CYLINDER_SIGNAL_DOWN] &&
+
+engine->cylinders[PNEUMO_CYLINDER_Y2].input_signal[PNEUMO_CYLINDER_SIGNAL_DOWN] &&
+
+engine->cylinders[PNEUMO_CYLINDER_Y3].input_signal[PNEUMO_CYLINDER_SIGNAL_DOWN] &&
+
+engine->cylinders[PNEUMO_CYLINDER_Y4].input_signal[PNEUMO_CYLINDER_SIGNAL_DOWN] &&
+
+engine->cylinders[PNEUMO_CYLINDER_Y5].input_signal[PNEUMO_CYLINDER_SIGNAL_DOWN] &&
+
+engine->cylinders[PNEUMO_CYLINDER_Y6].input_signal[PNEUMO_CYLINDER_SIGNAL_DOWN] &&
+
+engine->cylinders[PNEUMO_CYLINDER_Y7].input_signal[PNEUMO_CYLINDER_SIGNAL_DOWN] &&
+
+engine->cylinders[PNEUMO_CYLINDER_Y8].input_signal[PNEUMO_CYLINDER_SIGNAL_DOWN]) {
+
+engine->timeout = 0;
+
+if (DELAY_GE(engine)) {
+
+engine->state = PneumoState_2;
+
+engine->delay = 0;
+
+engine->timeout = 0;
+
+}
+
+}
+
+else if (TIMEOUT_GE(engine)) {
+
+engine->state = PneumoState_1;
+
+engine->cylinders[PNEUMO_CYLINDER_Y1].output_signal = 0;
+
+engine->cylinders[PNEUMO_CYLINDER_Y2].output_signal = 0;
+
+engine->cylinders[PNEUMO_CYLINDER_Y3].output_signal = 0;
+
+engine->cylinders[PNEUMO_CYLINDER_Y4].output_signal = 0;
+
+engine->cylinders[PNEUMO_CYLINDER_Y5].output_signal = 0;
+
+engine->cylinders[PNEUMO_CYLINDER_Y6].output_signal = 0;
+
+engine->cylinders[PNEUMO_CYLINDER_Y7].output_signal = 0;
+
+engine->cylinders[PNEUMO_CYLINDER_Y8].output_signal = 0;
+
+engine->delay = 0;
+
+engine->timeout = 0;
+
+}
+
+break;
+
+}
+
+case PneumoState_2:
+
+{
+
+...
+
+}
+
+...
+
+case PneumoState_FatalException: {
+
+ret = false;
+
+break;
+
+}
+
+}
+
+engine->timeout++;
+
+engine->delay++;
+
+return ret;
+
+}
